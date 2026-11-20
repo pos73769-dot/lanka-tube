@@ -28,7 +28,7 @@ Firebase web app settings are public browser/client settings. Never put a Fireba
 
 Search returns up to 50 results per page. YouTube's API does not provide an endpoint to list every video on the platform; use search and Load more.
 
-The Home feed is ordered by newest publish date for Sri Lanka. Use the Refresh button to fetch the latest results manually; there is no timed auto-refresh, to avoid consuming YouTube API quota for every visitor.
+The Home feed is ordered by newest publish date and uses Sri Lanka region plus Sinhala/Tamil search terms and Sinhala relevance to favor local videos. YouTube does not provide a reliable channel-country filter, so results cannot be guaranteed to be exclusively Sri Lankan. Use the Refresh button to fetch the latest results manually; there is no timed auto-refresh, to avoid consuming YouTube API quota for every visitor.
 
 The Shorts tab searches for `#shorts` videos shorter than four minutes and plays selected videos in a vertical player. YouTube's Data API does not expose a dedicated Shorts-only search filter.
 

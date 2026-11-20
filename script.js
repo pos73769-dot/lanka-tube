@@ -1,7 +1,7 @@
 const API_KEY_STORAGE = "lankaTube.youtubeApiKey";
 const HISTORY_STORAGE = "lankaTube.watchHistory";
 const YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search";
-const DEFAULT_QUERY = "Sri Lanka Sinhala";
+const DEFAULT_QUERY = "Sinhala|Tamil|Sri Lanka|Ceylon|ශ්‍රී ලංකා";
 const APP_CONFIG = window.LANKA_TUBE_CONFIG || {};
 
 const grid = document.getElementById("videoGrid");
@@ -64,6 +64,8 @@ async function showLiveSearchResults(query) {
     type: "video",
     maxResults: "8",
     q: searchTerm,
+    regionCode: "LK",
+    relevanceLanguage: "si",
     safeSearch: "moderate",
     key: apiKey
   });
@@ -293,6 +295,7 @@ async function searchYouTube(query, append) {
     q: currentQuery,
     order: "date",
     regionCode: "LK",
+    relevanceLanguage: "si",
     safeSearch: "moderate",
     key: apiKey
   });
