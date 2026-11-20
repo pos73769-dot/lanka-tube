@@ -239,6 +239,26 @@ function showFeedMessage(title, message, actionLabel, action) {
   if (actionLabel) document.getElementById("feedAction").addEventListener("click", action);
 }
 
+function refreshCurrentFeed() {
+  if (currentSection === "History") {
+    loadWatchHistory();
+    videos = getHistoryVideos();
+    renderVideos(videos);
+    return;
+  }
+  if (currentSection === "Community") {
+    renderVideos(sharedVideos);
+    return;
+  }
+  if (currentSection === "Shorts") {
+    searchYouTube("#shorts Sri Lanka", false);
+    return;
+  }
+  currentSection = "Home";
+  main.classList.remove("shorts-mode", "history-mode");
+  searchYouTube(currentQuery || DEFAULT_QUERY, false);
+}
+
 async function searchYouTube(query, append) {
   const apiKey = getYoutubeApiKey();
   if (!apiKey) {
@@ -254,6 +274,7 @@ async function searchYouTube(query, append) {
   }
   if (loading) return;
   loading = true;
+  document.getElementById("refreshFeed").disabled = true;
   currentQuery = query || DEFAULT_QUERY;
   if (!append) {
     videos = [];
@@ -270,6 +291,8 @@ async function searchYouTube(query, append) {
     type: "video",
     maxResults: "50",
     q: currentQuery,
+    order: "date",
+    regionCode: "LK",
     safeSearch: "moderate",
     key: apiKey
   });
@@ -306,6 +329,7 @@ async function searchYouTube(query, append) {
     showFeedMessage("YouTube search failed", error.message, "Open YouTube", () => openYouTubeSearch(currentQuery));
   } finally {
     loading = false;
+    document.getElementById("refreshFeed").disabled = false;
   }
 }
 
@@ -325,7 +349,8 @@ function openPlayer(video) {
   document.getElementById("playerChannel").textContent = video.channel;
   document.getElementById("playerChannelAvatar").textContent = video.channel.charAt(0).toUpperCase();
   document.getElementById("descriptionStats").textContent = video.published || "Public YouTube video";
-  document.getElementById("descriptionText").textContent = "This video is played using the official YouTube player.";
+  document.getElementById("descriptionText").textContent =
+    "Use the player settings to choose the highest available quality. Background playback depends on YouTube and your device.";
   playerModal.classList.toggle("shorts-player", currentSection === "Shorts");
   playerModal.classList.add("open");
   document.body.style.overflow = "hidden";
@@ -359,8 +384,12 @@ document.addEventListener("click", event => {
 });
 
 chips.addEventListener("click", event => {
-  const chip = event.target.closest(".chip");
+  const chip = event.target.closest(".chip, .refresh-chip");
   if (!chip) return;
+  if (chip.id === "refreshFeed") {
+    refreshCurrentFeed();
+    return;
+  }
   chips.querySelectorAll(".chip").forEach(item => item.classList.toggle("active", item === chip));
   const filter = chip.dataset.filter;
   const searchInput = document.getElementById("searchInput");

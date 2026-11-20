@@ -28,9 +28,13 @@ Firebase web app settings are public browser/client settings. Never put a Fireba
 
 Search returns up to 50 results per page. YouTube's API does not provide an endpoint to list every video on the platform; use search and Load more.
 
+The Home feed is ordered by newest publish date for Sri Lanka. Use the Refresh button to fetch the latest results manually; there is no timed auto-refresh, to avoid consuming YouTube API quota for every visitor.
+
 The Shorts tab searches for `#shorts` videos shorter than four minutes and plays selected videos in a vertical player. YouTube's Data API does not expose a dedicated Shorts-only search filter.
 
 Watch history is saved persistently in the current browser's local storage. It is not synced between devices and will be removed if that browser's site data is cleared. Google-account sync requires Firebase configuration.
+
+Video playback and available quality are controlled by YouTube's embedded player. Viewers can choose the highest available quality from the player's settings; background playback while a phone screen is off depends on YouTube and the device/browser and cannot be guaranteed by this site.
 
 ### Firebase login and shared links
 

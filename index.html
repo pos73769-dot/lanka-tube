@@ -6,13 +6,13 @@
   <meta name="theme-color" content="#0f0f0f">
   <title>Lanka Tube</title>
   <link rel="icon" href="assets/lanka-tube-logo.jpg">
-  <link rel="stylesheet" href="styles.css?v=20261120-3">
+  <link rel="stylesheet" href="styles.css?v=20261120-4">
 </head>
 <body>
   <header class="topbar">
     <div class="brand-area">
       <button class="icon-button menu-button" id="menuButton" aria-label="Menu">
-        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
       <button class="brand" id="brandHome" aria-label="Lanka Tube home">
         <img src="assets/lanka-tube-logo.jpg" alt="Lanka Tube">
@@ -22,21 +22,20 @@
     <form class="search" id="searchForm">
       <input id="searchInput" type="search" placeholder="සොයන්න" autocomplete="off" aria-label="Search">
       <button class="search-button" type="submit" aria-label="Search">
-        <svg viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 1 0 4.64 13.38L20.27 21l1.42-1.42-5.13-4.62A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>
       </button>
       <button class="mic-button" type="button" aria-label="Voice search">
-        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3zm-5-3a5 5 0 0 0 10 0h2a7 7 0 0 1-6 6.92V21h-2v-3.08A7 7 0 0 1 5 11z"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3m-4 0h8"/></svg>
       </button>
       <div class="live-search-results" id="liveSearchResults" aria-live="polite"></div>
     </form>
 
     <div class="header-actions">
       <button class="icon-button create-button" id="createButton" aria-label="Create">
-        <svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11z"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3z"/></svg>
       </button>
       <button class="icon-button" id="notificationsButton" aria-label="Notifications">
-        <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6l-2-2v-4a5 5 0 0 0-4-4.9V3h-2v2.1A5 5 0 0 0 7 10v4l-2 2v1h14z"/></svg>
-        <span class="notification-dot">3</span>
+        <svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
       </button>
       <button class="avatar" id="profileButton" aria-label="Account">L</button>
     </div>
@@ -45,32 +44,32 @@
   <aside class="sidebar" id="sidebar">
     <nav>
       <button class="nav-item active" data-section="Home">
-        <svg viewBox="0 0 24 24"><path d="M12 3 2 11h3v10h6v-7h2v7h6V11h3z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/></svg>
         <span>මුල් පිටුව</span>
       </button>
       <button class="nav-item" data-section="Shorts">
-        <svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-12h-7z"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="3"/><path d="m10 8 5 4-5 4z"/></svg>
         <span>Shorts</span>
       </button>
       <button class="nav-item" data-section="Subscriptions">
-        <svg viewBox="0 0 24 24"><path d="M4 3h16v2H4zm-2 4h20v2H2zm2 4h16v10H4zm5 2v6l5-3z"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 9h8M8 12h8M8 15h5"/></svg>
         <span>දායකත්ව</span>
       </button>
       <hr>
       <button class="nav-item" data-section="History">
-        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 1-8.95 8H2l4-4 4 4H7a7 7 0 1 0 2.05-4.95L7.64 7.46A9 9 0 0 1 13 3zm-1 4h2v5l4 2-1 1-5-3z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M4 8a9 9 0 1 1-1 5M3 4v5h5m4-2v6l4 2"/></svg>
         <span>History</span>
       </button>
       <button class="nav-item" data-section="Playlists">
-        <svg viewBox="0 0 24 24"><path d="M3 5h12v2H3zm0 4h12v2H3zm0 4h8v2H3zm12 2 6 3-6 3z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M3 6h11M3 10h11M3 14h7M3 18h7"/><path d="m16 13 5 3-5 3z"/></svg>
         <span>ගීත ලැයිස්තු</span>
       </button>
       <button class="nav-item" data-section="Watch Later">
-        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5l4 2-1 2-5-3V7z"/></svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <span>පසුතැගි</span>
       </button>
       <button class="nav-item" data-section="Liked Videos">
-        <svg viewBox="0 0 24 24"><path d="M2 21h4V9H2zm20-12a2 2 0 0 0-2-2h-6l1-4.4L14.7 2 8 9v10h10a2 2 0 0 0 2-1.7l2-6.8A2 2 0 0 0 22 9z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M7 10v11H4V10zM7 21h10a2 2 0 0 0 2-1.6l2-7A2 2 0 0 0 19 10h-6l1-5-1-2-6 7"/></svg>
         <span>කැමති වීඩියෝ</span>
       </button>
     </nav>
@@ -79,6 +78,10 @@
   <main class="main" id="main">
     <div class="chips" id="chips">
       <button class="chip active" data-filter="All">All</button>
+      <button class="refresh-chip" id="refreshFeed" type="button" aria-label="Refresh videos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 2M4 16l2 2a7 7 0 0 0 12.5-3"/></svg>
+        <span>Refresh</span>
+      </button>
       <button class="chip" data-filter="Music">Music</button>
       <button class="chip" data-filter="Live">Live</button>
       <button class="chip" data-filter="News">News</button>
@@ -160,8 +163,8 @@
     </div>
   </div>
 
-  <script src="firebase-config.js?v=20261120-3"></script>
-  <script src="script.js?v=20261120-3"></script>
-  <script type="module" src="firebase.js?v=20261120-3"></script>
+  <script src="firebase-config.js?v=20261120-4"></script>
+  <script src="script.js?v=20261120-4"></script>
+  <script type="module" src="firebase.js?v=20261120-4"></script>
 </body>
 </html>
