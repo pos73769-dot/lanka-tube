@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f0f0f">
+  <title>Lanka Tube</title>
+  <link rel="icon" href="assets/lanka-tube-logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-area">
+      <button class="icon-button menu-button" id="menuButton" aria-label="Menu">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      </button>
+      <button class="brand" id="brandHome" aria-label="Lanka Tube home">
+        <img src="assets/lanka-tube-logo.jpg" alt="Lanka Tube">
+      </button>
+    </div>
+
+    <form class="search" id="searchForm">
+      <input id="searchInput" type="search" placeholder="සොයන්න" autocomplete="off" aria-label="Search">
+      <button class="search-button" type="submit" aria-label="Search">
+        <svg viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 1 0 4.64 13.38L20.27 21l1.42-1.42-5.13-4.62A7.5 7.5 0 0 0 10.5 3zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z"/></svg>
+      </button>
+      <button class="mic-button" type="button" aria-label="Voice search">
+        <svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3zm-5-3a5 5 0 0 0 10 0h2a7 7 0 0 1-6 6.92V21h-2v-3.08A7 7 0 0 1 5 11z"/></svg>
+      </button>
+      <div class="live-search-results" id="liveSearchResults" aria-live="polite"></div>
+    </form>
+
+    <div class="header-actions">
+      <button class="icon-button create-button" id="createButton" aria-label="Create">
+        <svg viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11z"/></svg>
+      </button>
+      <button class="icon-button" id="notificationsButton" aria-label="Notifications">
+        <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6l-2-2v-4a5 5 0 0 0-4-4.9V3h-2v2.1A5 5 0 0 0 7 10v4l-2 2v1h14z"/></svg>
+        <span class="notification-dot">3</span>
+      </button>
+      <button class="avatar" id="profileButton" aria-label="Account">L</button>
+    </div>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <nav>
+      <button class="nav-item active" data-section="Home">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 11h3v10h6v-7h2v7h6V11h3z"/></svg>
+        <span>මුල් පිටුව</span>
+      </button>
+      <button class="nav-item" data-section="Shorts">
+        <svg viewBox="0 0 24 24"><path d="m13 2-9 12h7l-1 8 10-12h-7z"/></svg>
+        <span>Shorts</span>
+      </button>
+      <button class="nav-item" data-section="Subscriptions">
+        <svg viewBox="0 0 24 24"><path d="M4 3h16v2H4zm-2 4h20v2H2zm2 4h16v10H4zm5 2v6l5-3z"/></svg>
+        <span>දායකත්ව</span>
+      </button>
+      <hr>
+      <button class="nav-item" data-section="History">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 1-8.95 8H2l4-4 4 4H7a7 7 0 1 0 2.05-4.95L7.64 7.46A9 9 0 0 1 13 3zm-1 4h2v5l4 2-1 1-5-3z"/></svg>
+        <span>History</span>
+      </button>
+      <button class="nav-item" data-section="Playlists">
+        <svg viewBox="0 0 24 24"><path d="M3 5h12v2H3zm0 4h12v2H3zm0 4h8v2H3zm12 2 6 3-6 3z"/></svg>
+        <span>ගීත ලැයිස්තු</span>
+      </button>
+      <button class="nav-item" data-section="Watch Later">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 5v5l4 2-1 2-5-3V7z"/></svg>
+        <span>පසුතැගි</span>
+      </button>
+      <button class="nav-item" data-section="Liked Videos">
+        <svg viewBox="0 0 24 24"><path d="M2 21h4V9H2zm20-12a2 2 0 0 0-2-2h-6l1-4.4L14.7 2 8 9v10h10a2 2 0 0 0 2-1.7l2-6.8A2 2 0 0 0 22 9z"/></svg>
+        <span>කැමති වීඩියෝ</span>
+      </button>
+    </nav>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="chips" id="chips">
+      <button class="chip active" data-filter="All">All</button>
+      <button class="chip" data-filter="Music">Music</button>
+      <button class="chip" data-filter="Live">Live</button>
+      <button class="chip" data-filter="News">News</button>
+      <button class="chip" data-filter="Technology">Technology</button>
+      <button class="chip" data-filter="Travel">Travel</button>
+      <button class="chip" data-filter="Cooking">Cooking</button>
+      <button class="chip" data-filter="Sports">Sports</button>
+      <button class="chip" data-filter="Podcasts">Podcasts</button>
+      <button class="chip" data-filter="Entertainment">Entertainment</button>
+      <button class="chip" data-filter="Community">Lanka Tube</button>
+    </div>
+    <section class="video-grid" id="videoGrid" aria-label="Video feed"></section>
+    <div class="feed-footer" id="feedFooter"></div>
+  </main>
+
+  <div class="overlay" id="overlay"></div>
+  <aside class="right-panel" id="notificationsPanel">
+    <div class="panel-header"><h2>Notifications</h2><button class="icon-button panel-close" aria-label="Close">×</button></div>
+    <div class="notification-item"><div class="mini-avatar">i</div><div><strong>Notifications</strong><p>Sign in after account setup to receive updates.</p></div></div>
+  </aside>
+
+  <aside class="profile-panel" id="profilePanel">
+    <div class="profile-heading"><div class="large-avatar" id="accountAvatar">L</div><div><strong id="accountName">Signed out</strong><p id="accountIdentifier">Lanka Tube account</p></div></div>
+    <button id="signInButton">Sign in with Google / phone</button>
+    <p class="account-note" id="accountNote">Account features need Firebase setup.</p>
+  </aside>
+
+  <div class="modal" id="createModal">
+    <div class="modal-card">
+      <button class="modal-close" aria-label="Close">×</button>
+      <h2>Create</h2>
+      <button class="create-option" id="uploadOption"><b>↑</b><span><strong>Upload video</strong><small>Share a video with Lanka Tube</small></span></button>
+      <button class="create-option" id="liveOption"><b>●</b><span><strong>Go live</strong><small>Start a live stream</small></span></button>
+      <button class="create-option" id="postOption"><b>＋</b><span><strong>Create post</strong><small>Share an update</small></span></button>
+    </div>
+  </div>
+
+  <div class="modal" id="authModal">
+    <div class="modal-card auth-card">
+      <button class="modal-close auth-close" type="button" aria-label="Close">×</button>
+      <h2>Sign in to Lanka Tube</h2>
+      <p class="auth-status" id="authStatus">Choose Google or enter a phone number with country code.</p>
+      <button class="primary-button google-sign-in" id="googleSignIn" type="button">Continue with Google</button>
+      <form id="phoneAuthForm">
+        <label for="phoneNumber">Phone number (international format, e.g. +94771234567)</label>
+        <div class="phone-controls">
+          <input id="phoneNumber" type="tel" autocomplete="tel" placeholder="+94771234567">
+          <button class="secondary-button" id="sendPhoneCode" type="submit">Send code</button>
+        </div>
+        <div id="phoneCodeGroup" hidden>
+          <label for="phoneCode">SMS verification code</label>
+          <div class="phone-controls">
+            <input id="phoneCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Verification code">
+            <button class="primary-button" id="verifyPhoneCode" type="button">Verify</button>
+          </div>
+        </div>
+      </form>
+      <div id="recaptcha-container"></div>
+    </div>
+  </div>
+
+  <div class="player-modal" id="playerModal">
+    <div class="player-shell">
+      <button class="player-close" aria-label="Close">×</button>
+      <div class="video-stage" id="videoStage">
+        <iframe id="youtubePlayer" title="YouTube video player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="player-info">
+        <h2 id="playerTitle"></h2>
+        <div class="channel-row"><div class="channel-avatar" id="playerChannelAvatar">L</div><div><strong id="playerChannel"></strong><small>YouTube channel</small></div></div>
+        <div class="action-row">
+          <button id="likeButton" type="button">↗ Open on YouTube</button>
+          <button id="shareVideo" type="button">↗ Share</button>
+          <button id="shareToLankaTube" type="button">＋ Share to Lanka Tube</button>
+        </div>
+        <div class="description"><strong id="descriptionStats"></strong><p id="descriptionText"></p></div>
+        <div class="comments"><p>Use YouTube to subscribe, like, or comment on this video.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="firebase-config.js?v=20261120"></script>
+  <script src="script.js?v=20261120"></script>
+  <script type="module" src="firebase.js?v=20261120"></script>
+</body>
+</html>

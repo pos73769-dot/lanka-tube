@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /sharedVideos/{videoId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['videoId', 'title', 'channel', 'userId', 'createdAt'])
+        && request.resource.data.keys().hasAll(['videoId', 'title', 'channel', 'userId', 'createdAt'])
+        && request.resource.data.videoId is string
+        && request.resource.data.videoId.matches('^[A-Za-z0-9_-]{11}$')
+        && request.resource.data.title is string
+        && request.resource.data.title.size() <= 250
+        && request.resource.data.channel is string
+        && request.resource.data.channel.size() <= 150
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+      allow update: if false;
+      allow delete: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+    }
+  }
+}
