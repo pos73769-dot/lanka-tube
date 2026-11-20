@@ -1,4 +1,5 @@
 const API_KEY_STORAGE = "lankaTube.youtubeApiKey";
+const HISTORY_STORAGE = "lankaTube.watchHistory";
 const YOUTUBE_API = "https://www.googleapis.com/youtube/v3/search";
 const DEFAULT_QUERY = "Sri Lanka Sinhala";
 const APP_CONFIG = window.LANKA_TUBE_CONFIG || {};
@@ -14,10 +15,13 @@ const playerModal = document.getElementById("playerModal");
 const authModal = document.getElementById("authModal");
 const feedFooter = document.getElementById("feedFooter");
 const liveSearchResults = document.getElementById("liveSearchResults");
+const main = document.getElementById("main");
 
 let videos = [];
 let sharedVideos = [];
+let watchHistory = [];
 let currentQuery = DEFAULT_QUERY;
+let currentSection = "Home";
 let nextPageToken = "";
 let loading = false;
 let selectedVideo = null;
@@ -127,8 +131,63 @@ function formatPublishedDate(value) {
   return ` · ${date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`;
 }
 
+function reportHistoryError(error) {
+  document.getElementById("accountNote").textContent = `Watch history could not be saved: ${error.message}`;
+}
+
+function loadWatchHistory() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(HISTORY_STORAGE) || "[]");
+    if (!Array.isArray(stored)) throw new Error("Stored history data is invalid.");
+    watchHistory = stored.filter(video =>
+      video && /^[A-Za-z0-9_-]{11}$/.test(video.id) &&
+      typeof video.title === "string" && typeof video.channel === "string"
+    );
+  } catch (error) {
+    watchHistory = [];
+    reportHistoryError(error);
+  }
+}
+
+function saveWatchHistory(video) {
+  const entry = {
+    id: video.id,
+    title: video.title,
+    channel: video.channel,
+    published: video.published || "",
+    image: video.image || `https://i.ytimg.com/vi/${encodeURIComponent(video.id)}/hqdefault.jpg`,
+    live: Boolean(video.live),
+    watchedAt: new Date().toISOString()
+  };
+  watchHistory = [entry, ...watchHistory.filter(item => item.id !== entry.id)];
+  try {
+    localStorage.setItem(HISTORY_STORAGE, JSON.stringify(watchHistory));
+  } catch (error) {
+    reportHistoryError(error);
+    return;
+  }
+  if (currentSection === "History") {
+    videos = getHistoryVideos();
+    renderVideos(videos);
+  }
+}
+
+function getHistoryVideos() {
+  return watchHistory.map(video => ({
+    ...video,
+    published: video.watchedAt
+      ? ` · Watched ${new Date(video.watchedAt).toLocaleString()}`
+      : " · Watch history"
+  }));
+}
+
 function renderVideos(items) {
   if (!items.length) {
+    if (currentSection === "History") {
+      grid.innerHTML = '<div class="empty-state"><h2>No watch history</h2><p>Videos you play are saved in this browser and remain here unless its site data is cleared.</p></div>';
+      feedFooter.innerHTML = "";
+      return;
+    }
     grid.innerHTML = `<div class="empty-state"><h2>No videos to show</h2><p>Search YouTube to find public videos.</p><button class="primary-button" id="emptySearch">Search YouTube</button></div>`;
     document.getElementById("emptySearch").addEventListener("click", () => document.getElementById("searchInput").focus());
     feedFooter.innerHTML = "";
@@ -156,7 +215,7 @@ function renderVideos(items) {
 
   grid.querySelectorAll(".video-card").forEach(card => {
     const play = () => {
-      const video = videos.find(item => item.id === card.dataset.videoId);
+      const video = items.find(item => item.id === card.dataset.videoId);
       if (video) openPlayer(video);
     };
     card.addEventListener("click", play);
@@ -214,6 +273,7 @@ async function searchYouTube(query, append) {
     safeSearch: "moderate",
     key: apiKey
   });
+  if (currentSection === "Shorts") params.set("videoDuration", "short");
   if (append && nextPageToken) params.set("pageToken", nextPageToken);
 
   try {
@@ -258,6 +318,7 @@ function closeOverlays() {
 
 function openPlayer(video) {
   selectedVideo = video;
+  saveWatchHistory(video);
   document.getElementById("youtubePlayer").src =
     `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.id)}?autoplay=1&rel=0`;
   document.getElementById("playerTitle").textContent = video.title;
@@ -265,15 +326,19 @@ function openPlayer(video) {
   document.getElementById("playerChannelAvatar").textContent = video.channel.charAt(0).toUpperCase();
   document.getElementById("descriptionStats").textContent = video.published || "Public YouTube video";
   document.getElementById("descriptionText").textContent = "This video is played using the official YouTube player.";
+  playerModal.classList.toggle("shorts-player", currentSection === "Shorts");
   playerModal.classList.add("open");
   document.body.style.overflow = "hidden";
 }
 
+loadWatchHistory();
 renderVideos([]);
 
 document.getElementById("searchForm").addEventListener("submit", event => {
   event.preventDefault();
   const query = document.getElementById("searchInput").value.trim();
+  currentSection = "Home";
+  main.classList.remove("shorts-mode", "history-mode");
   liveSearchResults.classList.remove("open");
   chips.querySelectorAll(".chip").forEach(chip => chip.classList.toggle("active", chip.dataset.filter === "All"));
   searchYouTube(query || DEFAULT_QUERY, false);
@@ -300,9 +365,14 @@ chips.addEventListener("click", event => {
   const filter = chip.dataset.filter;
   const searchInput = document.getElementById("searchInput");
   if (filter === "Community") {
+    currentSection = "Community";
+    main.classList.remove("shorts-mode", "history-mode");
+    videos = sharedVideos;
     renderVideos(sharedVideos);
     return;
   }
+  currentSection = "Home";
+  main.classList.remove("shorts-mode", "history-mode");
   const query = filter === "All" ? (searchInput.value.trim() || DEFAULT_QUERY) : `${filter} Sri Lanka`;
   searchInput.value = filter === "All" ? searchInput.value : filter;
   searchYouTube(query, false);
@@ -322,8 +392,16 @@ document.querySelectorAll(".nav-item").forEach(item => {
     document.querySelectorAll(".nav-item").forEach(nav => nav.classList.remove("active"));
     item.classList.add("active");
     const section = item.dataset.section;
+    currentSection = section;
+    main.classList.toggle("shorts-mode", section === "Shorts");
+    main.classList.toggle("history-mode", section === "History");
     if (section === "Home") searchYouTube(DEFAULT_QUERY, false);
-    else if (section === "Shorts") searchYouTube("shorts Sri Lanka", false);
+    else if (section === "Shorts") searchYouTube("#shorts Sri Lanka", false);
+    else if (section === "History") {
+      videos = getHistoryVideos();
+      nextPageToken = "";
+      renderVideos(videos);
+    }
     else if (section === "Subscriptions") showFeedMessage("Sign in required", "Subscriptions need a configured Lanka Tube account.");
     else showFeedMessage("Account setup required", "History, playlists, Watch Later, and liked videos need a configured account.");
     if (window.innerWidth <= 680) closeOverlays();
@@ -360,6 +438,7 @@ document.getElementById("playerModal").addEventListener("click", event => {
 });
 function closePlayer() {
   playerModal.classList.remove("open");
+  playerModal.classList.remove("shorts-player");
   document.getElementById("youtubePlayer").src = "";
   document.body.style.overflow = "";
 }
@@ -381,6 +460,8 @@ document.getElementById("shareVideo").addEventListener("click", async event => {
 });
 
 document.getElementById("brandHome").addEventListener("click", () => {
+  currentSection = "Home";
+  main.classList.remove("shorts-mode", "history-mode");
   document.getElementById("searchInput").value = "";
   chips.querySelectorAll(".chip").forEach(chip => chip.classList.toggle("active", chip.dataset.filter === "All"));
   searchYouTube(DEFAULT_QUERY, false);

@@ -18,7 +18,7 @@ window.LANKA_TUBE_CONFIG = {
 };
 ```
 
-Firebase web app settings are public browser/client settings. Never put a Firebase service-account file, private key, or OAuth client secret in this project. The Pages workflow reads an optional `YOUTUBE_API_KEY` repository Actions secret and injects it into the deployed browser config. The key is still visible to site visitors, so restrict it to YouTube Data API v3 and the site's HTTP referrer. If the secret is not set, visitors can enter their own key in the account menu; it is saved only in that browser.
+Firebase web app settings are public browser/client settings. Never put a Firebase service-account file, private key, or OAuth client secret in this project. The Pages workflow reads the `YOUTUBE_API_KEY` repository Actions secret and injects it into the deployed browser config. The key is visible to site visitors, so restrict it to YouTube Data API v3 and the site's HTTP referrer.
 
 ### YouTube search
 
@@ -28,6 +28,10 @@ Firebase web app settings are public browser/client settings. Never put a Fireba
 
 Search returns up to 50 results per page. YouTube's API does not provide an endpoint to list every video on the platform; use search and Load more.
 
+The Shorts tab searches for `#shorts` videos shorter than four minutes and plays selected videos in a vertical player. YouTube's Data API does not expose a dedicated Shorts-only search filter.
+
+Watch history is saved persistently in the current browser's local storage. It is not synced between devices and will be removed if that browser's site data is cleared. Google-account sync requires Firebase configuration.
+
 ### Firebase login and shared links
 
 1. Register a Web app in Firebase Console and copy its web app config into `firebase-config.js`.
@@ -36,7 +40,7 @@ Search returns up to 50 results per page. YouTube's API does not provide an endp
 4. Publish the rules from `firestore.rules` in **Firestore Database → Rules**. They allow public feed reads, require sign-in to add links, validate YouTube IDs and link fields, and allow authors to remove their own entries only.
 5. Phone sign-in uses Firebase's SMS verification and reCAPTCHA; configure the Firebase phone-auth settings and any required billing/quotas in the project.
 
-The Lanka Tube community feed is read in real time. Users share YouTube links; videos remain hosted and played by YouTube.
+The Lanka Tube community feed is read in real time. Users share YouTube links; videos remain hosted and played by YouTube. Uploading video files to Lanka Tube and subscriptions to Lanka Tube creators require a configured backend and Firebase Storage; the current app does not store uploaded video files.
 
 ## Run locally
 
